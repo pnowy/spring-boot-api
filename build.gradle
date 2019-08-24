@@ -1,0 +1,47 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.7.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'com.google.cloud.tools.jib' version '1.5.0'
+	id 'java'
+}
+
+group = 'com.github.pnowy.spring'
+version = '1.0.0'
+sourceCompatibility = '11'
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+// ./gradlew jibDockerBuild -> local context
+// ./gradlew jib -> local && push to dockerhub
+jib {
+	to {
+		image = "pnowy/api"
+		tags = [project.version, 'latest']
+	}
+	container {
+		jvmFlags = ["-XX:+UseContainerSupport", "-XX:InitialRAMPercentage=50", "-XX:MaxRAMPercentage=80", "-XX:+ExitOnOutOfMemoryError",]
+		ports = ['8080']
+		environment = [
+			SPRING_OUTPUT_ANSI_ENABLED: 'ALWAYS'
+		]
+		creationTime = 'USE_CURRENT_TIMESTAMP'
+		labels = [maintainer: 'pnowy']
+	}
+}
