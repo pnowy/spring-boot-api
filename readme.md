@@ -18,5 +18,5 @@ In order to deploy on kubernetes cluster: `kubectl apply -f k8s/`
 ## Additional endpoints
 
 - `/` - returns you ip address
-- `/ip/public` - returns the public address of the instance base on the call to `https://ipecho.net/plain`
+- `/ip/public` - returns the public address of the instance base on the call to `http://ifconfig.co`
 - `/ip?address=XXX` - return the response returned by URL `address` request param defined (as text)  

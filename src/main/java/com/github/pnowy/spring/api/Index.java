@@ -38,7 +38,7 @@ public class Index {
 
 	@GetMapping("/ip/public")
 	public String publicIp() {
-		return restTemplate.getForObject("https://ipecho.net/plain", String.class);
+		return restTemplate.getForObject("http://ifconfig.co", String.class);
 	}
 
 	@GetMapping("/ip")
