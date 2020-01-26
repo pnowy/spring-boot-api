@@ -3,6 +3,7 @@ FROM gradle:6.0.1-jdk11 as build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build -x test --no-daemon
+RUN ls /home/gradle/src/build/libs
 
 LABEL mainteriner="Przemek Nowak"
 
@@ -12,4 +13,4 @@ VOLUME /tmp
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 EXPOSE 8080
 ENV JAVA_TOOL_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError"
-ENTRYPOINT ["java", "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app/app.jar"]
