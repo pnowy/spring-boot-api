@@ -13,6 +13,8 @@ Easy and quick deployment to kubernetes cluster with actuator endpoints enabled.
 
 ## Kubernetes deployment
 
+In order to deploy on kubernetes cluster: `kubectl apply -f k8s/`
+
 ## Additional endpoints
 
 - `/` - returns you ip address
