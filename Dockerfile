@@ -1,6 +1,15 @@
-FROM openjdk:11.0.3-slim
+# build project
+FROM gradle:6.0.1-jdk11 as build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build -x test --no-daemon
 
+LABEL mainteriner="Przemek Nowak"
+
+# run project
+FROM adoptopenjdk:11-jre-hotspot
 VOLUME /tmp
-COPY /build/libs/*.jar app.jar
-
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:InitialRAMPercentage=50", "-XX:MaxRAMPercentage=80", "-XX:+ExitOnOutOfMemoryError", "-Xss256k","-Djava.security.egd=file:/dev/./urandom","-jar","/app.jar"]
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
+EXPOSE 8080
+ENV JAVA_TOOL_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError"
+ENTRYPOINT ["java", "-jar", "/app.jar"]

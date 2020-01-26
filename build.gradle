@@ -1,12 +1,13 @@
 plugins {
-	id 'org.springframework.boot' version '2.1.7.RELEASE'
-	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id 'com.google.cloud.tools.jib' version '1.5.0'
+	id 'org.springframework.boot' version '2.2.4.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
+	id 'com.google.cloud.tools.jib' version '1.8.0'
+	id 'pl.allegro.tech.build.axion-release' version '1.11.0'
 	id 'java'
 }
 
 group = 'com.github.pnowy.spring'
-version = '1.0.0'
+version = scmVersion.version
 sourceCompatibility = '11'
 
 configurations {
@@ -22,21 +23,25 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
 	compileOnly 'org.projectlombok:lombok'
+	implementation 'com.google.guava:guava:28.1-jre'
 	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
-// ./gradlew jibDockerBuild -> local context
-// ./gradlew jib -> local && push to dockerhub
+// alternative way to build images if you don't want to use Dockerfile
+// ./gradlew jibDockerBuild -> local context only
+// ./gradlew jib -> build && push
 jib {
 	to {
-		image = "pnowy/api"
+		image = "pnowy/spring-boot-api"
 		tags = [project.version, 'latest']
 	}
 	container {
-		jvmFlags = ["-XX:+UseContainerSupport", "-XX:InitialRAMPercentage=50", "-XX:MaxRAMPercentage=80", "-XX:+ExitOnOutOfMemoryError",]
+		jvmFlags = ["-Djava.net.preferIPv4Stack=true", "-Djava.security.egd=file:/dev/./urandom", "-XX:InitialRAMPercentage=50", "-XX:MaxRAMPercentage=75", "-XX:+ExitOnOutOfMemoryError",]
 		ports = ['8080']
 		environment = [
 			SPRING_OUTPUT_ANSI_ENABLED: 'ALWAYS'
