@@ -10,6 +10,6 @@ spec:
     - port: 8080
       targetPort: 8080
       protocol: TCP
-      name: app
+      name: http
   selector:
     app: spring-boot-api

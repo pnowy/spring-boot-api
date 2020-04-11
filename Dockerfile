@@ -12,5 +12,6 @@ FROM adoptopenjdk:14-jre-hotspot
 VOLUME /tmp
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 EXPOSE 8080
+EXPOSE 8081
 ENV JAVA_TOOL_OPTIONS="-Djava.net.preferIPv4Stack=true -Djava.security.egd=file:/dev/./urandom -XX:InitialRAMPercentage=50 -XX:MaxRAMPercentage=75 -XX:+ExitOnOutOfMemoryError"
 ENTRYPOINT ["java", "-jar", "/app/app.jar"]

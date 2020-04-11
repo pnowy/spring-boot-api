@@ -5,12 +5,11 @@ metadata:
   labels:
     app: spring-boot-api
 spec:
-  replicas: 1
   strategy:
     type: RollingUpdate
     rollingUpdate:
       maxUnavailable: 0
-      maxSurge: 1
+      maxSurge: 25%
   selector:
     matchLabels:
       app: spring-boot-api
@@ -25,22 +24,24 @@ spec:
           name: spring-boot-api
           readinessProbe:
             httpGet:
-              port: app
+              port: management
               path: /actuator/health
             initialDelaySeconds: 30
             periodSeconds: 15
             timeoutSeconds: 3
           livenessProbe:
             httpGet:
-              port: app
+              port: management
               path: /actuator/health/ping
             initialDelaySeconds: 20
           ports:
             - containerPort: 8080
-              name: app
+              name: http
+            - containerPort: 8081
+              name: management
           resources:
             requests:
-              memory: 128Mi
+              memory: 256Mi
             limits:
               memory: 256Mi
 ---
@@ -56,6 +57,6 @@ spec:
     - port: 8080
       targetPort: 8080
       protocol: TCP
-      name: app
+      name: http
   selector:
     app: spring-boot-api
