@@ -1,5 +1,5 @@
 # build project
-FROM gradle:6.0.1-jdk11 as build
+FROM gradle:6.3.0-jdk14 as build
 COPY --chown=gradle:gradle . /home/gradle/src
 WORKDIR /home/gradle/src
 RUN gradle build -x test --no-daemon
@@ -8,7 +8,7 @@ RUN ls /home/gradle/src/build/libs
 LABEL mainteriner="Przemek Nowak"
 
 # run project
-FROM adoptopenjdk:11-jre-hotspot
+FROM adoptopenjdk:14-jre-hotspot
 VOLUME /tmp
 COPY --from=build /home/gradle/src/build/libs/*.jar /app/app.jar
 EXPOSE 8080
