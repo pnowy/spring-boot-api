@@ -1,0 +1,3 @@
+managementPort: null
+livenessProbe: null
+readinessProbe: null

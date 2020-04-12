@@ -1,0 +1,4 @@
+name: {{ include "spring-boot-api.name" .}}
+helm.sh/chart: {{ include "spring-boot-api.chart" .}}
+app.kubernetes.io/name: {{ include "spring-boot-api.name" .}}
+serviceAccountName: {{ include "spring-boot-api.serviceAccountName" .}}

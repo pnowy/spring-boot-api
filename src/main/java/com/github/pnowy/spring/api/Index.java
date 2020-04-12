@@ -19,6 +19,7 @@ import lombok.AllArgsConstructor;
 public class Index {
 
 	private static final String SPRING_APPLICATION_NAME_PROPERTY = "spring.application.name";
+	private static final String SPRING_APPLICATION_ENV_PROPERTY = "spring.application.env";
 
 	private final Environment environment;
 	private final RestTemplate restTemplate;
@@ -28,6 +29,7 @@ public class Index {
 		// @formatter:off
         return Map.of(
                 SPRING_APPLICATION_NAME_PROPERTY, environment.getProperty(SPRING_APPLICATION_NAME_PROPERTY, "?"),
+				SPRING_APPLICATION_ENV_PROPERTY, environment.getProperty(SPRING_APPLICATION_ENV_PROPERTY, "?"),
                 "request.remoteAddr", firstNonNull(request.getRemoteAddr(), "?"),
                 "request.remoteHost", firstNonNull(request.getRemoteHost(), "?"),
                 "request.remotePort", firstNonNull(String.valueOf(request.getRemotePort()), "?")
@@ -37,7 +39,7 @@ public class Index {
 
 	@GetMapping("/ip/public")
 	public String publicIp() {
-		return restTemplate.getForObject("http://ifconfig.co", String.class);
+		return restTemplate.getForObject("https://api.ipify.org?format=json", String.class);
 	}
 
 	@GetMapping("/ip")

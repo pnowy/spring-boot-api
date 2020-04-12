@@ -1,0 +1,80 @@
+nameOverride: "" # override name of the chart (by default spring-boot-api)
+fullnameOverride: "" # override full name of installation (by default release name + chart name)
+
+image:
+  repository: pnowy/spring-boot-api
+  tag: 1.0.0
+  pullPolicy: IfNotPresent
+
+# number of replicas
+replicaCount: 1
+
+httpPort: 8080
+managementPort: 8081
+
+## uncomment and modify the following livenessProbe and readinessProbe.
+## These defaults should work with anything that uses the spring health actuator version higher than 2.2.4
+# management.endpoints.web.exposure.include=health,prometheus,info
+# management.endpoint.health.show-details=always
+livenessProbe:
+  httpGet:
+    path: /actuator/health/ping
+    port: management
+  initialDelaySeconds: 300
+  periodSeconds: 10
+
+readinessProbe:
+  httpGet:
+    path: /actuator/health
+    port: management
+  initialDelaySeconds: 60
+  periodSeconds: 10
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+service:
+  enabled: true
+  httpPort: 80
+  ## If service.type is not set to NodePort, the following statement
+  ## will be ignored.
+  ##
+  # nodePort: 32015
+
+  ## Service type can be set to ClusterIP, NodePort or LoadBalancer.
+  type: ClusterIP
+
+  ## Service annotations
+  ##
+  # annotations:
+  #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
+  #   service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:xx-xxxx-x:xxxxxxxxxxx:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx
+  #   external-dns.alpha.kubernetes.io/hostname: drone.domain.tld.
+
+imagePullSecrets: []
+  # - name: aws-registry
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podSecurityContext: {}
+  # runAsUser: 1000
+  # fsGroup: 2000
+
+ingress:
+  enabled: false
