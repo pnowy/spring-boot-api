@@ -44,20 +44,10 @@ affinity: {}
 
 service:
   enabled: true
-  httpPort: 80
-  ## If service.type is not set to NodePort, the following statement
-  ## will be ignored.
-  ##
-  # nodePort: 32015
-
+  port: 8080
   ## Service type can be set to ClusterIP, NodePort or LoadBalancer.
   type: ClusterIP
-
-  ## Service annotations
-  ##
-  # annotations:
-  #   service.beta.kubernetes.io/aws-load-balancer-backend-protocol: http
-  #   service.beta.kubernetes.io/aws-load-balancer-ssl-cert: arn:aws:acm:xx-xxxx-x:xxxxxxxxxxx:certificate/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxx
+  annotations: {}
   #   external-dns.alpha.kubernetes.io/hostname: drone.domain.tld.
 
 imagePullSecrets: []
