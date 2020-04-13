@@ -1,2 +1,0 @@
-# override full name of installation (by default release name + chart name)
-fullnameOverride: example-service
