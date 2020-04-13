@@ -1,7 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.2.6.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-	id 'com.google.cloud.tools.jib' version '1.8.0'
+	id 'com.google.cloud.tools.jib' version '2.1.0'
 	id 'pl.allegro.tech.build.axion-release' version '1.11.0'
 	id 'java'
 }
@@ -33,17 +33,25 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
+project.ext {
+	latestTag = version.contains("SNAPSHOT") ? "snapshot": "latest"
+}
+
 // alternative way to build images if you don't want to use Dockerfile
 // ./gradlew jibDockerBuild -> local context only
 // ./gradlew jib -> build && push
 jib {
 	to {
 		image = "pnowy/spring-boot-api"
-		tags = [project.version, 'latest']
+		tags = [project.version, latestTag]
+		auth {
+			username = System.getenv("DOCKERHUB_USERNAME")
+			password = System.getenv("DOCKERHUB_PASSWORD")
+		}
 	}
 	container {
 		jvmFlags = ["-Djava.net.preferIPv4Stack=true", "-Djava.security.egd=file:/dev/./urandom", "-XX:InitialRAMPercentage=50", "-XX:MaxRAMPercentage=75", "-XX:+ExitOnOutOfMemoryError",]
-		ports = ['8080']
+		ports = ['8080', '8081']
 		environment = [
 			SPRING_OUTPUT_ANSI_ENABLED: 'ALWAYS'
 		]
