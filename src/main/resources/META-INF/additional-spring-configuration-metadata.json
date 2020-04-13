@@ -4,5 +4,6 @@
       "name": "spring.application.env",
       "type": "java.lang.String",
       "description": "Specific environment marker."
-  }
-] }
+    }
+  ]
+}
