@@ -11,6 +11,11 @@ replicaCount: 1
 httpPort: 8080
 managementPort: 8081
 
+spring:
+## Uncomment if you want to activate a specfic spring profile
+#  profile: kubernetes
+
+
 ## uncomment and modify the following livenessProbe and readinessProbe.
 ## These defaults should work with anything that uses the spring health actuator version higher than 2.2.4
 # management.endpoints.web.exposure.include=health,prometheus,info

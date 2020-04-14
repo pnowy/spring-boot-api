@@ -1,5 +1,5 @@
 fullnameOverride: snapshot
 
 image:
-  repository: pnowy/spring-boot-api
   tag: snapshot
+  pullPolicy: Always
