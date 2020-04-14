@@ -34,7 +34,7 @@ dependencies {
 }
 
 project.ext {
-	latestTag = version.contains("SNAPSHOT") ? "snapshot": "latest"
+	stabilityTag = version.contains("SNAPSHOT") ? "snapshot": "release"
 }
 
 // alternative way to build images if you don't want to use Dockerfile
@@ -43,7 +43,7 @@ project.ext {
 jib {
 	to {
 		image = "pnowy/spring-boot-api"
-		tags = [project.version, latestTag]
+		tags = [project.version, stabilityTag]
 		auth {
 			username = System.getenv("DOCKERHUB_USERNAME")
 			password = System.getenv("DOCKERHUB_PASSWORD")
