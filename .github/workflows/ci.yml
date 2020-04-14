@@ -14,7 +14,7 @@ jobs:
       - name: Build with Gradle
         run: ./gradlew clean build check
       - name: Build & push docker image
-          env:
-            DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-            DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_ACCESS_TOKEN }}
-          run: ./gradlew jib
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+        run: ./gradlew jib
