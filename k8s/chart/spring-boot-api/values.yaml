@@ -3,7 +3,7 @@ fullnameOverride: "" # override full name of installation (by default release na
 
 image:
   repository: pnowy/spring-boot-api
-  tag: 1.0.0
+  tag: 0.1.0
   pullPolicy: IfNotPresent
 
 replicaCount: 1
