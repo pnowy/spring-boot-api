@@ -41,9 +41,12 @@ project.ext {
 // ./gradlew jibDockerBuild -> local context only
 // ./gradlew jib -> build && push
 jib {
+	from {
+		image = "adoptopenjdk/openjdk11:x86_64-alpine-jdk-11.0.5_10-slim"
+	}
 	to {
 		image = "pnowy/spring-boot-api"
-		tags = [project.version, stabilityTag]
+		tags = [project.version, stabilityTag] as Set<String>
 		auth {
 			username = System.getenv("DOCKERHUB_USERNAME")
 			password = System.getenv("DOCKERHUB_PASSWORD")
