@@ -60,3 +60,10 @@ Create the name of the service account to use
     {{ default "default" .Values.serviceAccount.name }}
 {{- end -}}
 {{- end -}}
+
+{{/*
+Properties file config
+*/}}
+{{- define "spring-boot-api.propertiesConfigName" -}}
+{{ printf "%s-%s" (include "spring-boot-api.fullname" . ) "properties" | trunc 63 | trimSuffix "-" }}
+{{- end -}}

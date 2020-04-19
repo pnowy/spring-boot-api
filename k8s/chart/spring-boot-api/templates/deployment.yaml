@@ -98,5 +98,5 @@ spec:
         {{- if hasKey .Values.spring.config "content" }}
         - name: config-file
           configMap:
-            name: {{ include "spring-boot-api.fullname" . }}-config
+            name: {{ include "spring-boot-api.propertiesConfigName" . }}
         {{- end }}
