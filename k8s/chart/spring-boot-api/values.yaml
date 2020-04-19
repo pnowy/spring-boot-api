@@ -11,10 +11,20 @@ replicaCount: 1
 httpPort: 8080
 managementPort: 8081
 
-spring:
-## Uncomment if you want to activate a specfic spring profile
-#  profile: kubernetes
+spring: {}
+  # Uncomment if you want to activate a specfic spring profile
+  # profile: kubernetes
 
+## Extra environment variables
+env:
+  values: {}
+    # DATABASE_ENGINE: mysql
+    # DATABASE_HOST: mysql
+    # DATABASE_NAME: spring
+    # DATABASE_USERNAME: spring
+    # DATABASE_PASSWORD: spring
+  # configMap: "" # inject environment variables from config map
+  # secret: "" # inject environment variables from secret
 
 ## uncomment and modify the following livenessProbe and readinessProbe.
 ## These defaults should work with anything that uses the spring health actuator version higher than 2.2.4

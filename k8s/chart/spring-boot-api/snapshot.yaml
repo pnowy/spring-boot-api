@@ -3,3 +3,9 @@ fullnameOverride: snapshot
 image:
   tag: snapshot
   pullPolicy: Always
+
+env:
+  values:
+    SPRING_APPLICATION_NAME: "snapshot"
+#  configMap: "spring-boot"
+#  secret: "abc"

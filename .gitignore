@@ -30,3 +30,5 @@ out/
 
 ### VS Code ###
 .vscode/
+
+k8s/chart/spring-boot-api/temp.yaml

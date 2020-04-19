@@ -27,9 +27,24 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
             {{- if hasKey .Values.spring "profile" }}
-            - name: SPRING_PROFILES_ACTIVE
+            - name: "SPRING_PROFILES_ACTIVE"
               value: {{ .Values.spring.profile | quote }}
             {{- end }}
+            {{- range $key, $value := .Values.env.values }}
+            - name: {{ $key | quote }}
+              value: {{ $value | quote }}
+            {{- end }}
+          {{- if or (hasKey .Values.env "secret") (hasKey .Values.env "secret") }}
+          envFrom:
+            {{- if hasKey .Values.env "configMap" }}
+            - configMapRef:
+                name: {{ .Values.env.configMap | quote }}
+            {{- end }}
+            {{- if hasKey .Values.env "secret" }}
+            - secretRef:
+                name: {{ .Values.env.secret | quote }}
+            {{- end }}
+          {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.httpPort }}
