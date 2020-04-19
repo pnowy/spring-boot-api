@@ -4,6 +4,10 @@ metadata:
   name: {{ include "spring-boot-api.fullname" . }}
   labels:
     {{- include "spring-boot-api.labels" . | nindent 4 }}
+  {{- with .Values.deployment.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -30,6 +34,10 @@ spec:
             - name: "SPRING_PROFILES_ACTIVE"
               value: {{ .Values.spring.profile | quote }}
             {{- end }}
+            {{- if hasKey .Values.spring.config "content" }}
+            - name: "SPRING_CONFIG_ADDITIONAL_LOCATION"
+              value: "file:/config/application.properties"
+            {{- end }}
             {{- range $key, $value := .Values.env.values }}
             - name: {{ $key | quote }}
               value: {{ $value | quote }}
@@ -45,6 +53,14 @@ spec:
                 name: {{ .Values.env.secret | quote }}
             {{- end }}
           {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /data
+            {{- if hasKey .Values.spring.config "content" }}
+            - name: config-file
+              mountPath: /config/application.properties
+              subPath: application.properties
+            {{- end }}
           ports:
             - name: http
               containerPort: {{ .Values.httpPort }}
@@ -76,3 +92,11 @@ spec:
       tolerations:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      volumes:
+        - name: data
+          emptyDir: {}
+        {{- if hasKey .Values.spring.config "content" }}
+        - name: config-file
+          configMap:
+            name: {{ include "spring-boot-api.fullname" . }}-config
+        {{- end }}

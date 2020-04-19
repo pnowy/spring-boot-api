@@ -1,0 +1,11 @@
+{{- if hasKey .Values.spring.config "content" }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "spring-boot-api.fullname" . }}-config
+  labels:
+    {{- include "spring-boot-api.labels" . | nindent 4 }}
+data:
+  application.properties: |
+    {{- .Values.spring.config.content | nindent 4 }}
+{{- end }}

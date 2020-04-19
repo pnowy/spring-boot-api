@@ -4,8 +4,12 @@ image:
   tag: snapshot
   pullPolicy: Always
 
+spring:
+  config:
+    content: |-
+      logging.level.root=DEBUG
+      spring.application.name=snapshot-values-name
+
 env:
   values:
-    SPRING_APPLICATION_NAME: "snapshot"
-#  configMap: "spring-boot"
-#  secret: "abc"
+    spring.application.env: "snapshot-values-env"

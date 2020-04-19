@@ -11,9 +11,19 @@ replicaCount: 1
 httpPort: 8080
 managementPort: 8081
 
-spring: {}
-  # Uncomment if you want to activate a specfic spring profile
+spring:
+  # Uncomment if you want to activate a specific spring profile
   # profile: kubernetes
+  config: {}
+      ## content of config (typical spring properties file)
+      # content: |-
+        # logging.level.root=DEBUG
+        # spring.application.name=props
+
+    ## An optional secret that contains a base64 encoded YAML file to be loaded in
+    ## for passwords and other secrets, by default `/config/secret.yml`
+    ## this secret must only have a single key of `secret.yml: |-`.
+    # secretName: configSecret
 
 ## Extra environment variables
 env:
@@ -26,6 +36,9 @@ env:
   # configMap: "" # inject environment variables from config map
   # secret: "" # inject environment variables from secret
 
+deployment:
+  annotations: {}
+
 ## uncomment and modify the following livenessProbe and readinessProbe.
 ## These defaults should work with anything that uses the spring health actuator version higher than 2.2.4
 # management.endpoints.web.exposure.include=health,prometheus,info
@@ -34,7 +47,7 @@ livenessProbe:
   httpGet:
     path: /actuator/health/ping
     port: management
-  initialDelaySeconds: 300
+  initialDelaySeconds: 180
   periodSeconds: 10
 
 readinessProbe:
