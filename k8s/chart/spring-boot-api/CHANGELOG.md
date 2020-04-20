@@ -1,9 +1,5 @@
-# Change Log
+# CHANGELOG
 
-This file documents all notable changes to SPRING-BOOT-API Helm Chart. The release numbering uses [semantic versioning](http://semver.org).
+## 0.1.0
 
-## v1.0.0
-
-### First release
-
-* Release version 1.0.0 of spring-boot-api
+- Initial release
