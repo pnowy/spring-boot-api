@@ -104,3 +104,7 @@ ingress:
   #  - secretName: spring-boot-api-tls
   #    hosts:
   #      - spring-boot-api.local
+
+podDisruptionBudget:
+  enabled: false
+  minAvailable: 1
