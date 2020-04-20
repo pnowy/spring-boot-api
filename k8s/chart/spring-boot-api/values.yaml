@@ -108,3 +108,7 @@ ingress:
 podDisruptionBudget:
   enabled: false
   minAvailable: 1
+
+# create additional RBAC role and role binding
+rbac:
+  create: false
