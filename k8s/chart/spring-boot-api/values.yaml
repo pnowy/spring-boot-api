@@ -65,9 +65,17 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+## Node labels for pod assignment (https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#nodeselector)
 nodeSelector: {}
+## Tolerations for pod assignment (https://kubernetes.io/docs/concepts/configuration/taint-and-toleration/)
 tolerations: []
-affinity: {}
+
+## Node Affinity (https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#node-affinity-beta-feature)
+nodeAffinity: {}
+## Pod Affinity (https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+podAffinity: {}
+## Pod AntiAffinity (https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity)
+podAntiAffinity: soft
 
 service:
   enabled: true
