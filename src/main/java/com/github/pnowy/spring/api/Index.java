@@ -2,6 +2,7 @@ package com.github.pnowy.spring.api;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 public class Index {
@@ -45,6 +48,24 @@ public class Index {
 	@GetMapping("/ip")
 	public String publicIp(@RequestParam String address) {
 		return restTemplate.getForObject(address, String.class);
+	}
+
+	@GetMapping("/exception")
+	public String exception(@RequestParam(value = "message", required = false, defaultValue = "ExceptionLogged") String message) {
+		try {
+			if (1 == 1) {
+				throw new IllegalArgumentException(message);
+			}
+		} catch (Exception e) {
+			log.error("", e);
+		}
+		return LocalDateTime.now() + " exception-logged";
+	}
+
+	@GetMapping("/log")
+	public String log(@RequestParam(value = "message", required = false, defaultValue = "exampleMessage") String message) {
+		log.info("MessageLogged: {}", message);
+		return LocalDateTime.now() + " message-logged";
 	}
 
 }
